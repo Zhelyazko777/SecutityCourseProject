@@ -44,7 +44,9 @@
             var q = primeNumbers[1];
             var b = 12187;
             var fn = (p - 1) * (q - 1);
+            // This is the secret key
             var a = ModInverse(b, fn);
+            Console.WriteLine("The private key is: " + a);
             var textToDecode = @"12092 3752 12661 828 5876 2958 17624 20500 2958 8236 20022 18911 2360 868
                                  11732 11891 412 19177 8236 12803 21844 6741 14266 17574 9352 17574 8411
                                  20211 2360 6741 14266 17574 9352 17624 20500 2958 8236 3915 18731 8566
@@ -84,30 +86,34 @@
             return primes;
         }
 
-
-        private static int ModInverse(int a, int n)
+        private static int ModInverse(int a, int m)
         {
-            var i = n;
-            var v = 0;
-            var d = 1;
-
-            while (a > 0)
+            if (Gcd(a, m) != 1)
             {
-                var t = i / a; 
-                var x = a;
-                a = i % x;
-                i = x;
-                x = d;
-                d = v - t * x;
-                v = x;
-            }
-            v %= n;
-            if (v < 0)
-            {
-                v = (v + n) % n;
+                return -1;
             }
 
-            return v;
+            int x;
+            for (x = 1; x < m; x++)
+            {
+                if ((a * x) % m == 1)
+                {
+                    break;
+                }
+            }
+
+            return x;
+        }
+
+        private static int Gcd(int r, int s)
+        {
+            while (s != 0)
+            {
+                int t = s;
+                s = r % s;
+                r = t;
+            }
+            return r;
         }
     }
 }

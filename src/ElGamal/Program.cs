@@ -43,7 +43,7 @@
             var b = 15540;
             // This is the secret key
             var a = CalcSecretKey(alpha, b, p);
-            Console.WriteLine("The secret key is: " + a);
+            Console.WriteLine("The private key is: " + a);
             var textToDecrypt = @"(23234,18606) (12089,4286) (28242,27890) (9945,17970) (1727,23951)
                                 (10559,7762) (805,25691) (27862,18325) (4695,12512) (12229,13895)
                                 (12946,29020) (3777,6116) (27620,5018) (10389,19448) (15857,14304)
@@ -141,29 +141,34 @@
             return primes;
         }
 
-        private static long ModInverse(long a, long n)
+        private static long ModInverse(long a, long m)
         {
-            long i = n;
-            long v = 0;
-            long d = 1;
-
-            while (a > 0)
+            if (Gcd(a, m) != 1)
             {
-                long t = i / a;
-                long x = a;
-                a = i % x;
-                i = x;
-                x = d;
-                d = v - t * x;
-                v = x;
-            }
-            v %= n;
-            if (v < 0)
-            {
-                v = (v + n) % n;
+                return -1;
             }
 
-            return v;
+            long x;
+            for (x = 1; x < m; x++)
+            {
+                if ((a * x) % m == 1)
+                {
+                    break;
+                }
+            }
+
+            return x;
+        }
+
+        private static long Gcd(long r, long s)
+        {
+            while (s != 0)
+            {
+                long t = s;
+                s = r % s;
+                r = t;
+            }
+            return r;
         }
     }
 }

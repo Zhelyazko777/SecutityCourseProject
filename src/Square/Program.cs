@@ -2,23 +2,29 @@
 {
     using System;
     using System.Collections.Generic;
+    using System.Linq;
 
     public class Program
     {
         public static void Main()
         {
-            Console.WriteLine("Enter the text you want to decrypt: ");
-            var encryptedWord = Console.ReadLine();
-            Console.WriteLine("Results: ");
-
-            for (int i = 1; i <= Math.Sqrt(encryptedWord.Length); i++)
+            var textToDecrypt = "SWEOTWIREENUHEVFVLTRRLEIEVWOEVFVNEONEEOETTFETFUTHXOLTTVERNUVWWEEEIREOONFENTOOETOSEWNNLHUIFEEEERRTESIEVIRWLEVNENTEEVETOEHLVESWNFRVENEEEOEENFVLNUE";
+            var used = new List<string>();
+            for (int i = 1; i <= Math.Sqrt(textToDecrypt.Length); i++)
             {
-                for (int j = 1; j <= Math.Sqrt(encryptedWord.Length); j++)
+                for (int j = 1; j <= Math.Sqrt(textToDecrypt.Length); j++)
                 {
-                    Decrypt(encryptedWord, i, j);
+                    if (used.Any(x => x == $"{i}:{j}"))
+                    {
+                        continue;
+                    }
+
+                    Decrypt(textToDecrypt, i, j);
+                    used.Add($"{i}:{j}");
                     if (i != j)
                     {
-                        Decrypt(encryptedWord, j, i);
+                        Decrypt(textToDecrypt, j, i);
+                        used.Add($"{j}:{i}");
                     }
                 }
             }
@@ -70,7 +76,8 @@
                 }
             }
 
-            Console.WriteLine("Possible decrypted text: " + result);
+            Console.WriteLine($"With m={m} and n={n}:");
+            Console.WriteLine(result);
         }
     }
 }

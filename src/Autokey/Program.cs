@@ -37,10 +37,10 @@
 
         public static void Main()
         {
-            var text = Console.ReadLine();
+            var textToDecrypt = "KAPASCEWGGFLTXHSPIVVASNRKGTBDZIRRVXEDNMPOWAHTHQEWJXMWQMILSPRBYNQPUVQLNDMIFZCYYBVBTSSNVVIDAAJMPIRGBBRGVVBLGKJEZONARMIURVKKXMBVTINZGWXHHALXKLNA";
             for (int i = 0; i < alphabet.Count; i++)
             {
-                Decrypt(text, i);
+                Decrypt(textToDecrypt, i);
             }
         }
 
@@ -78,6 +78,7 @@
             return result;
         }
 
+        // When the result is negative we should make it positive by module 26
         private static int calculateByModule26(int a, int b)
         {
             if (a - b < 0)
